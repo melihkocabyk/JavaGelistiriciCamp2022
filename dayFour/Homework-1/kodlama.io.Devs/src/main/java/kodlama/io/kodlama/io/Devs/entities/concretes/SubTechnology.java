@@ -24,13 +24,13 @@ public class SubTechnology {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="name")
+	@Column(name="technologyId")
 	private int id;
 	
-	@Column(name="name")
+	@Column(name="technologyName")
 	private String name;
 	
 	@ManyToOne
-	@JoinColumn(name="languageId")
+	@JoinColumn(name="Id")
 	private ProgrammingLanguage programmingLanguage;
 }

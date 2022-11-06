@@ -31,6 +31,6 @@ public class ProgrammingLanguage {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy = "language")
+	@OneToMany(mappedBy = "programmngLanguages")
 	private List<SubTechnology> subTechnologies;
 }
