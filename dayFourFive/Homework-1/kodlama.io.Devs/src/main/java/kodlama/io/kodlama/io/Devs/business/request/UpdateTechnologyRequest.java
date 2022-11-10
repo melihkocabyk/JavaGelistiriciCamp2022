@@ -11,4 +11,7 @@ public class UpdateTechnologyRequest {
 
 	private int technologyId;
 	private String technologyName;
+	
+	private int programmingLanguageId;
+	private String programmingLanguageName;
 }

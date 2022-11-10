@@ -6,23 +6,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kodlama.io.kodlama.io.Devs.business.absracts.ProgrammingLanguageService;
 import kodlama.io.kodlama.io.Devs.business.absracts.TechnologyService;
 import kodlama.io.kodlama.io.Devs.business.request.CreateTechnologyRequest;
 import kodlama.io.kodlama.io.Devs.business.request.DeleteTechnologyRequest;
 import kodlama.io.kodlama.io.Devs.business.request.UpdateTechnologyRequest;
 import kodlama.io.kodlama.io.Devs.business.response.GetAllTechnologyResponse;
-import kodlama.io.kodlama.io.Devs.business.response.GetTechnologyByIdResponse;
 import kodlama.io.kodlama.io.Devs.dataAccess.abstracts.TechnologyRepository;
+import kodlama.io.kodlama.io.Devs.entities.concretes.ProgrammingLanguage;
 import kodlama.io.kodlama.io.Devs.entities.concretes.Technology;
 
 @Service
 public class TechnologyManager implements TechnologyService {
 
 	private TechnologyRepository technologyRepository;
+	private ProgrammingLanguageService programmingLanguageService;
 
 	@Autowired
-	public TechnologyManager(TechnologyRepository technologyRepository) {
+	public TechnologyManager(TechnologyRepository technologyRepository, ProgrammingLanguageService programmingLanguageService) {
 		this.technologyRepository = technologyRepository;
+		this.programmingLanguageService = programmingLanguageService;
 	}
 	private boolean isIdExist(int id) {
 		for(GetAllTechnologyResponse getAllTechnologyResponse : getAll()) {
@@ -57,23 +60,19 @@ public class TechnologyManager implements TechnologyService {
 			GetAllTechnologyResponse responseItem = new GetAllTechnologyResponse();
 			responseItem.setTechnologyId(technology.getTechnologyId());
 			responseItem.setTechnologyName(technology.getTechnologyName());
+			responseItem.setProgrammingLanguageId(technology.getProgrammingLanguage().getProgrammingLanguageId());
+			responseItem.setProgrammingLanguageName(technology.getProgrammingLanguage().getProgrammingLanguageName());
 			getAllTechnologyResponses.add(responseItem);
 		}
 		return getAllTechnologyResponses;
 	}
 	@Override
-	public Technology getById(GetTechnologyByIdResponse getTechnologyByIdResponse) throws Exception {
-		int id = getTechnologyByIdResponse.getTechnologyId();
-		if(!isIdExist(id)) {
-			throw new Exception("There is no such id!");
-		}
-		return technologyRepository.findById(id).get();
-	}
-	@Override
 	public void add(CreateTechnologyRequest createTechnologyRequest) throws Exception {
 		
 		Technology technology = new Technology();
+		ProgrammingLanguage programmingLanguage = programmingLanguageService.getById(createTechnologyRequest.getProgrammingLanguageId());
 		technology.setTechnologyName(createTechnologyRequest.getTechnologyName());
+		technology.setProgrammingLanguage(programmingLanguage);
 		
 		nameCheck(technology);
 		technologyRepository.save(technology);
@@ -89,8 +88,10 @@ public class TechnologyManager implements TechnologyService {
 	@Override
 	public void update(UpdateTechnologyRequest updateTechnologyRequest) throws Exception {
 		Technology technology =  new Technology();
+		ProgrammingLanguage updateProgrammingLanguage = programmingLanguageService.getById(updateTechnologyRequest.getProgrammingLanguageId());
 		technology.setTechnologyId(updateTechnologyRequest.getTechnologyId());
 		technology.setTechnologyName(updateTechnologyRequest.getTechnologyName());
+		technology.setProgrammingLanguage(updateProgrammingLanguage);
 		
 		nameCheck(technology);
 		if(isIdExist(technology.getTechnologyId())) {

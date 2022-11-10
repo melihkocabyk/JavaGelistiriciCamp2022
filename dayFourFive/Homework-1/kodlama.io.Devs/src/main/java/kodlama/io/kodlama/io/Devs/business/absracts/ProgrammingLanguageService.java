@@ -13,6 +13,7 @@ public interface ProgrammingLanguageService {
 
 	List<GetAllProgrammingLanguageResponse> getAll();
 	ProgrammingLanguage getById(GetProgrammingLanguageByIdResponse getProgrammingLanguageByIdResponse) throws Exception;
+	ProgrammingLanguage getById(int id);
 	void add(CreateProgrammingLanguageRequest createProgrammingLanguageRequest) throws Exception;
 	void remove(DeleteProgrammingLanguageRequest deleteProgrammingLanguageRequest) throws Exception;
 	void update(UpdateProgrammingLanguageRequest updateProgrammingLanguageRequest) throws Exception;

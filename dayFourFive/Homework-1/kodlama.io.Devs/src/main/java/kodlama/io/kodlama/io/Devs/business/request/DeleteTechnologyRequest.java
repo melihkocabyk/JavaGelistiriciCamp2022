@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class DeleteTechnologyRequest {
 
 	private int technologyId;
+	
+	private int programmingLanguageId;
 }

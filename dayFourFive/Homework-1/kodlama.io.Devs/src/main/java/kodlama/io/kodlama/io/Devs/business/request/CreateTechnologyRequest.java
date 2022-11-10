@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class CreateTechnologyRequest {
 
 	private String technologyName;
+	
+	private int programmingLanguageId;
 }

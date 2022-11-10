@@ -67,7 +67,7 @@ public class ProgrammingLanguageManager implements ProgrammingLanguageService {
 		if(!isIdExist(id)) {
 			throw new Exception("There is no such id!");
 		}
-		return programmingLanguageRepository.findById(id).get();
+		return programmingLanguageRepository.findById(id);
 	}
 	@Override
 	public void add(CreateProgrammingLanguageRequest createProgrammingLanguageRequest) throws Exception {
@@ -97,5 +97,14 @@ public class ProgrammingLanguageManager implements ProgrammingLanguageService {
 			throw new Exception("There is no such id!");
 		}
 		programmingLanguageRepository.save(programmingLanguage);
+	}
+	@Override
+	public ProgrammingLanguage getById(int id) {
+		
+		ProgrammingLanguage programmingLanguages = programmingLanguageRepository.findById(id); 
+		ProgrammingLanguage getAllProgrammingLanguageResponse = new ProgrammingLanguage();
+		getAllProgrammingLanguageResponse.setProgrammingLanguageId(programmingLanguages.getProgrammingLanguageId());
+		getAllProgrammingLanguageResponse.setProgrammingLanguageName(programmingLanguages.getProgrammingLanguageName());
+		return getAllProgrammingLanguageResponse;
 	}
 }
